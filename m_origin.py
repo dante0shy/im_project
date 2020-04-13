@@ -26,9 +26,9 @@ def seg(img):
     tmp[tmp >= m3] = 255
     mask[mask >= m3] = 1
     n = mask.sum()
-    cv2.imshow('img', tmp)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
+    # cv2.imshow('img', tmp)
+    # cv2.waitKey()
+    # cv2.destroyAllWindows()
 
     xin = xg * mask
     xout = xin
@@ -37,46 +37,45 @@ def seg(img):
     m2 = xout.sum() / n
     xout[xout > m2] = m2
     m3 = xout.sum() / n
-    xout[xout > m3] = 0
+    xout[xout > (m3)] = 0
     tmp = np.copy(xout)
     tmp[tmp > 0] = 255
     xout[xout > 0] = 2
     # tmp = cv2.morphologyEx(tmp, cv2.MORPH_OPEN, kernel)
-    cv2.imshow('om', tmp)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
+    # cv2.imshow('om', tmp)
+    # cv2.waitKey()
+    # cv2.destroyAllWindows()
 
     xout[xout == 1] = 0
     image_segmented = xout.astype(np.uint8)
+
     image_segmented [image_segmented >1 ] =255
     # closed = cv2.erode(image_segmented, None, iterations=2)
     cv2.imshow('img res', image_segmented)
     cv2.waitKey()
-
     cv2.destroyAllWindows()
     return image_segmented
 
 
 if __name__ =='__main__':
-
+    # 85.5389 %
     data_path = glob.glob(os.path.join(os.path.dirname(__file__), 'data', '*'))
     data = {}
     for d in data_path:
         if 'manual1' in d:
             gif = gif2numpy.convert(d)
             continue
-        elif '24' not in d:
+        elif '24_training' not in d:
             continue
         data[d.split('/')[-1]] = cv2.imread(d)
         print(d)
     gt = gif[0][0]
+    img = list(data.values())[0]
     gt =  gt[:,:,0] == 255
 
-    img = list(data.values())[0]
-    cv2.imwrite(os.path.join(output_dir,'origin_24.jpg'), img)
-    cv2.imshow('Origin', img)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
+    # cv2.imshow('Origin', img)
+    # cv2.waitKey()
+    # cv2.destroyAllWindows()
     res = seg(img)
 
     acc = np.count_nonzero(res == gt)/( res.flatten().shape[0])

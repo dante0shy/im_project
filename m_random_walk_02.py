@@ -136,5 +136,6 @@ if __name__ =='__main__':
     #
     # print( acc)
 
-
+    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'extras')
+    cv2.imwrite(os.path.join(output_dir, 'fused_res_24.jpg'), res)
     pass
