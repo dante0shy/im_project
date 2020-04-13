@@ -73,6 +73,7 @@ if __name__ =='__main__':
     gt =  gt[:,:,0] == 255
 
     img = list(data.values())[0]
+    cv2.imwrite(os.path.join(output_dir,'origin_24.jpg'), img)
     cv2.imshow('Origin', img)
     cv2.waitKey()
     cv2.destroyAllWindows()
@@ -80,6 +81,6 @@ if __name__ =='__main__':
 
     acc = np.count_nonzero(res == gt)/( res.flatten().shape[0])
     print('accuracy {:02f}'.format(acc))
-    cv2.imwrite(os.path.join(output_dir,'res_24.jpg'), res)
+    cv2.imwrite(os.path.join(output_dir,'res_origin_24.jpg'), res)
 
     pass
